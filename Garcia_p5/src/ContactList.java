@@ -57,6 +57,7 @@ public class ContactList {
                     if(contact.size() > 0){
                         System.out.print("Which contact will you edit? ");
                         remove = in.nextInt();
+                        if(contact.size() < remove || remove < 0) throw new IndexOutOfBoundsException("size");
                         System.out.print("Enter a new first name for contact "+remove+": ");
                         in.nextLine();
                         String newfirst = in.nextLine();
@@ -113,6 +114,16 @@ public class ContactList {
         this.contact.add(new ContactItem(Fname,Lname,Phone,Email));
     }
 
+    public void toRemove(int remove){
+        try{
+            if(contact.size() < remove || remove < 0) throw new IndexOutOfBoundsException("size");
+            contact.remove(remove);
+
+        }catch(IndexOutOfBoundsException I) {
+            System.out.println("WARNING: out of bound call please enter correct value\n");
+        }
+    }
+
     private void Print(){
         System.out.println("Current contacts\n" +
                 "-------------\n");
@@ -127,16 +138,21 @@ public class ContactList {
     }
 
     public void edit(String newfirst, String newlast, String newPhone, String newEmail, int remove){
-        if(newfirst.trim().equals("") && newlast.trim().equals("") && newPhone.trim().equals("") && newEmail.trim().equals(""))
-            throw new NullPointerException("All Data is NULL ");
+        try{
+            if(contact.size() < remove || remove < 0) throw new IndexOutOfBoundsException("size");
+            if(newfirst.trim().equals("") && newlast.trim().equals("") && newPhone.trim().equals("") && newEmail.trim().equals(""))
+                throw new NullPointerException("All Data is NULL ");
 
-        if(!ContactItem.isValid(newEmail))
-            throw new InputMismatchException("Not a valid Email ");
+            if(!ContactItem.isValid(newEmail))
+                throw new InputMismatchException("Not a valid Email ");
 
-        if(!ContactItem.isValidPhone(newPhone))
-            throw new InputMismatchException("Not a valid Phone number ");
+            if(!ContactItem.isValidPhone(newPhone))
+                throw new InputMismatchException("Not a valid Phone number ");
 
-        contact.get(remove).Fname = newfirst; contact.get(remove).Lname = newlast; contact.get(remove).PhoneNumber = newPhone; contact.get(remove).Email = newEmail;
+            contact.get(remove).Fname = newfirst; contact.get(remove).Lname = newlast; contact.get(remove).PhoneNumber = newPhone; contact.get(remove).Email = newEmail;
+        }catch(IndexOutOfBoundsException I) {
+            System.out.println("WARNING: out of bound call please enter correct value\n");
+        }
     }
 
 
