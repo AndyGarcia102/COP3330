@@ -60,6 +60,7 @@ public class TaskList {
                     Print();
                     System.out.print("Which task will you edit? ");
                     int remove = in.nextInt();
+                    if(tasks.size() < remove || remove < 0) throw new IndexOutOfBoundsException("fail");
                     System.out.print("Enter a new title for task "+remove+": ");
                     in.nextLine();
                     String newTitle = in.nextLine();
@@ -176,6 +177,20 @@ public class TaskList {
         }
     }
 
+
+    public void edit(String newTitle, String newDes, LocalDate newDate, int remove){
+        try{
+            if(tasks.size() < remove || remove < 0) throw new IndexOutOfBoundsException("fail");
+            if(newTitle.trim().equals("")){
+                throw new NullPointerException("Warning: title must be at least 1 character long; task not created");
+            }
+
+            tasks.get(remove).title = newTitle; tasks.get(remove).des = newDes; tasks.get(remove).Date = newDate;
+        }catch(IndexOutOfBoundsException l){
+            System.out.println("Fail");
+        }
+
+    }
 
     public void LoadList(int Choice, Scanner in) throws FileNotFoundException
     {
